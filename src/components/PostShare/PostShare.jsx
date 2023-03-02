@@ -24,7 +24,7 @@ const PostShare = () => {
                 <div className='PostOptions'>
                     <div className='Option'
                         style={{ color: "var(--photo" }}
-                        onClick={() => { imageRef.current.click() }}>
+                        onClick={() => imageRef.current.click() }>
                         <UilScenery />
                         Photo
                     </div>
