@@ -24,6 +24,8 @@ const PostShare = () => {
         setImage(null);
         desc: desc.current.value = "";
     }
+    
+    const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -38,7 +40,6 @@ const PostShare = () => {
             data.append("name", fileName);
             data.append("file", image);
             newPost.image = fileName;
-            console.log(newPost);
             try {
                 dispatch(uploadImage(data));
             } catch (error) {
@@ -51,7 +52,7 @@ const PostShare = () => {
 
     return (
         <div className='PostShare'>
-            <img src={ProfileImage} alt='' />
+            <img src={user.profilePicture ? serverPublic+user.profilePicture: serverPublic+"defaultProfile.png"} alt='' />
             <div>
                 <input ref={desc} required type='text' placeholder="What's happening" />
                 <div className='PostOptions'>

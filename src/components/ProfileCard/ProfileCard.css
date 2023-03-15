@@ -18,11 +18,13 @@
 
 .ProfileImages>img:nth-of-type(1){
     width: 100%;
+    max-height: 14rem;
 }
 .ProfileImages>img:nth-of-type(2){
     width: 6rem;
     border-radius: 50%;
     position: absolute;
+    height: 6rem;
     bottom: -3rem;
     box-shadow: var(--profileShadow);
 }

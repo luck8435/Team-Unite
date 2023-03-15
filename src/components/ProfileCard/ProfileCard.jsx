@@ -2,55 +2,65 @@ import React from 'react';
 import './ProfileCard.css'
 import Cover from '../../img/cover.jpg';
 import Profile from '../../img/profileImg.jpg';
-const ProfileCard = () => {
-    const ProfilePage = true;
-  return (
-    <div className='ProfileCard'>
-        <div className="ProfileImages">
-            <img src={Cover} alt='' />
-            <img src={Profile} alt='' />
-        </div>
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-        <div className="ProfileName">
-            <span>Zendaya MJ</span>
-            <span>Senior UI/UX Designer</span>
-        </div>
-        <div className="FollowStatus">
-            <hr />
-            <div>
-                <div className="Follow">
-                    <span>6,890</span>
-                    <span>Followings</span>
-                </div>
-                <div className="vl"></div>
-                <div className="Follow">
-                    <span>1</span>
-                    <span>Followers</span>
-                </div>
+const ProfileCard = ({location}) => {
+    const { user } = useSelector((state) => state.authReducer.authData);
+    const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER
+    const ProfilePage = false;
+    const posts = useSelector((state) => state.postReducer.posts);
 
-                {ProfilePage &&  (
-                    <>
-                    <div className='vl'>
-
-                    </div>
-                    <div className="Follow">
-                        <span>3</span>
-                        <span>Posts</span>
-                    </div>
-                    </>
-                )}
+    return (
+        <div className='ProfileCard'>
+            <div className="ProfileImages">
+                <img src={user.coverPicture ? serverPublic + user.coverPicture : serverPublic + "defaultCover.jpeg"} alt='' />
+                <img src={user.profilePicture ? serverPublic + user.profilePicture : serverPublic + "defaultProfile.png"} alt='' />
             </div>
-            <hr />
+
+            <div className="ProfileName">
+                <span>{user.firstName} {user.lastName}</span>
+                <span>{user.worksAt ? user.worksAt : "Write about youself"}</span>
+            </div>
+            <div className="FollowStatus">
+                <hr />
+                <div>
+                    <div className="Follow">
+                        <span>{user.following.length}</span>
+                        <span>Following</span>
+                    </div>
+                    <div className="vl"></div>
+                    <div className="Follow">
+                        <span>{user.followers.length}</span>
+                        <span>Followers</span>
+                    </div>
+
+                    {location === 'profilePage' && (
+                        <>
+                            <div className='vl'>
+
+                            </div>
+                            <div className="Follow">
+                                <span>{posts.filter((post) => post.userId === user._id).length}</span>
+                                <span>Posts</span>
+                            </div>
+                        </>
+                    )}
+                </div>
+                <hr />
+            </div>
+            {location === 'profilePage' ?
+                '' :
+                <span>
+                    <Link style={{textDecoration: 'none', color: 'inherit'}} to={`/profile/${user._id}`}>
+
+                        My Profile
+                    </Link>
+                </span>
+            }
+
         </div>
-        {ProfilePage ? 
-        '' :
-        <span>
-            My Profile
-        </span>
-        }
-        
-    </div>
-  )
+    )
 }
 
 export default ProfileCard
